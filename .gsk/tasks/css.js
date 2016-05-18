@@ -25,8 +25,9 @@ var DEST = ENV['dest-dir'];
 var pipeline = require('../pipe/css/' + ENV.engine + '.js');
 
 
-// AUTOPREFIXER CONFIGURATION
+// POSTCSS CONFIGURATION
 // ----------------------------------------------------------------------------
+// Autoprefixer
 var APX_CONF = {
   browsers: ENV.autoprefixer || ['> 4%', 'ie >= 8']
 };

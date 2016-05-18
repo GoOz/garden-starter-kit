@@ -6,8 +6,8 @@
   "css" : {
     "src-dir"     : "./src/css",
     "dest-dir"    : "./build/css",
-    "engine"      : "sass",
-    "autoprefixer": ["> 4%", "ie >= 8"]
+    "engine"      : "cssnext",
+    "autoprefixer": ["last 2 versions", "> 5%"]
   },
   "html" : {
     "src-dir"  : "./src/html",
