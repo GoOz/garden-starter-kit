@@ -1,8 +1,8 @@
 {
-  "name": "garden-starterkit",
+  "name": "gooz-starterkit",
   "homepage": "http://localhost:8000",
-  "title": "Garden Starter Kit",
-  "description": "Set de base pour les projets Garden statiques.",
+  "title": "GoOz Starter Kit",
+  "description": "Set de base pour les projets statiques.",
   "version": "2.0.0-beta2",
   "dependencies": {},
   "devDependencies": {

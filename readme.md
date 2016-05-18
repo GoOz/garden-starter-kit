@@ -1,11 +1,11 @@
 
-Clever Garden _Starter Kit_
+GoOz _Starter Kit_
 ===============================================================================
 
 Ce dépôt GIT sert de kit de démarrage pour les projets d'intégration statique.
 
 Il contient toutes nos bonnes pratiques et tous les outils nécessaires pour
-nos projets d'intégration statique chez Clever Age. Parmi tous les outils
+nos projets d'intégration statique. Parmi tous les outils
 présents dans ce kit, vous trouverez ceux qui doivent être utilisés
 obligatoirement aussi bien que ceux qui sont simplement recommandés.
 
@@ -91,7 +91,7 @@ $ npm-do gulp live
 ## Démarrer votre projet
 Vous avez deux options pour démarrer votre projet :
 
-1. [Télécharger](https://github.com/cleverage/garden-starter-kit/archive/master.zip) le contenu de ce dépôt et l'utiliser comme base de démarrage
+1. [Télécharger](https://github.com/GoOz/garden-starter-kit/archive/master.zip) le contenu de ce dépôt et l'utiliser comme base de démarrage
 2. Clôner ce dépôt avec GIT (voir ci-après)
 
 ### Clôner le kit de démarrage avec GIT
@@ -101,7 +101,7 @@ Le plus simple :
 
 ```bash
 $ cd ~/monProjet
-$ git clone git@github.com:cleverage/garden-starter-kit.git .
+$ git clone git@github.com:GoOz/garden-starter-kit.git .
 $ rm -rf .git
 ```
 

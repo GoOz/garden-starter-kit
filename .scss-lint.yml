@@ -1,5 +1,4 @@
 # Configuration inspirée par https://github.com/kaelig/scss-lint-w3c
-# adapté pour Clever Age
 
 # Cette configuration reprend tous les settings, même ceux par défaut définis
 # ici : https://github.com/causes/scss-lint/blob/master/config/default.yml
@@ -276,7 +275,6 @@ linters:
     max_depth: 5
 
   # https://github.com/causes/scss-lint/blob/master/lib/scss_lint/linter/README.md#selectorformat
-  # Clever Age utilise la convention BEM
   SelectorFormat:
     enabled: false
     # convention: BEM

@@ -2,9 +2,8 @@
 TWIG
 ===============================================================================
 
-Dans la mesure ou de nombreux projet chez Clever Age utilise Symfony,
-[Twig](http://twig.sensiolabs.org/) est aussi le système de templating par
-défaut que l'on utilise pour créer nos pages HTML statiques (via `twig.js`).
+[Twig](http://twig.sensiolabs.org/) est un système de templating par
+défaut que l'on utilisera pour créer nos pages HTML statiques (via `twig.js`).
 
 Configuration:
 ```json
