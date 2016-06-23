@@ -1,5 +1,5 @@
 {
-  "source": "./src/sass",
+  "source": "./src/css",
   "homepage": "styleguide.md",
   "destination": "./build/dev/docs/styleguide",
   "template": "./.kss",
