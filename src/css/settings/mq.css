@@ -1,0 +1,13 @@
+/*  ======================================================
+    Media Queries
+    ======================================================  */
+/* Empty MQ just for compilation order */
+
+/* Just to set MQs order */
+/* stylelint-disable */
+@media (max-width: 66rem) {}
+@media (max-width: 52rem) {}
+@media (max-width: 44rem) {}
+@media (max-width: 30rem) {}
+@media (max-width: 24rem) {}
+/* stylelint-enable */

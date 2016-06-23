@@ -17,20 +17,15 @@ module.exports = (grunt) ->
   # $ grunt build
   # Régénère le contenu du dossier `/build`. Il est recommandé de lancer cette
   # tache à chaque fois que l'on réalise un `git pull` du projet.
-  grunt.registerTask 'build', ['ifbower', 'clean', 'css', 'html', 'js', 'test']
-
-  # $ grunt bower
-  # Execute bower depuis grunt et copies les assets utils là ou ils sont
-  # necessaire: `js` => `src/js/lib`; `scss` => restent la ou ils sont
-  grunt.registerTask 'bower', ['exec:bower','copy:bower']
+  grunt.registerTask 'build', ['clean', 'css', 'html', 'js', 'svgstore', 'copy', 'test']
 
   # $ grunt css
   # Régènère uniquement les feuilles de styles (et les sprites/images associés)
-  grunt.registerTask 'css', ['compass', 'postcss', 'imagemin', 'copy:fonts']
+  grunt.registerTask 'css', ['postcss', 'imagemin', 'copy:fonts']
 
   # $ grunt html
   # Régènère uniquement les pages HTML
-  grunt.registerTask 'html', ['assemble', 'prettify', 'kss']
+  grunt.registerTask 'html', ['assemble', 'prettify']
 
   # $ grunt js
   # Régènère uniquement les fichiers JS
@@ -38,21 +33,7 @@ module.exports = (grunt) ->
 
   # $ grunt test
   # Lance les tests du projets
-  grunt.registerTask 'test', ['scsslint', 'jshint']
-
-  # $ grunt deploy
-  # Alias of `sftp-deploy`
-  grunt.registerTask 'deploy', ['sftp-deploy:build']
-
-  # $ grunt version
-  # Montée de version avec prompt
-  grunt.registerTask 'version', ['prompt:bump', 'bump']
-
-  # $ grunt kss
-  # Generation du style guide basé sur les commentaires KSS des fichiers SCSS
-  # Alias de grunt exec:kss
-  grunt.registerTask 'kss', ['exec:kss']
-
+  grunt.registerTask 'test', ['jshint']
 
   # CHARGE LES TÂCHES A LA DEMANDE POUR ACCELERER
   # L'EXECUTION DES TâCHES APPELLÉES INDIVIDUELLEMENT
@@ -60,17 +41,15 @@ module.exports = (grunt) ->
   [
     'grunt-assemble'
     'grunt-contrib-clean'
-    'grunt-contrib-compass'
     'grunt-contrib-concat'
     'grunt-contrib-copy'
     'grunt-contrib-imagemin'
     'grunt-contrib-jshint'
     'grunt-contrib-uglify'
-    'grunt-exec'
     'grunt-newer'
     'grunt-postcss'
     'grunt-prettify'
-    'grunt-githooks'
+    'grunt-svgstore'
   ].forEach (npmTask) ->
     task = npmTask.replace /^grunt-(contrib-)?/, ''
     grunt.registerTask task, [], () ->
@@ -80,14 +59,9 @@ module.exports = (grunt) ->
   # taches qui doivent être distinguées via `task:distinction`...
   # ... ou taches qui ne peuvent pas être optimisées de cette manière
   [
-    'grunt-prompt'
-    'grunt-bump'
     'grunt-usemin'
-    'grunt-exec'
-    'grunt-scss-lint'
     'grunt-contrib-connect'
     'grunt-contrib-watch'
-    'grunt-sftp-deploy'
   ].forEach (npmTask) ->
     grunt.loadNpmTasks npmTask
 
@@ -174,7 +148,7 @@ module.exports = (grunt) ->
     # --------------------------------------------------------------------------
     # Optimise automatiquement les images (png, jpeg, gif et svg)
     # Seul les images à la racine de `src/img` sont optimisées. Les images
-    # optimisées sont automatiquement placées dans `build/dev` et `build/prod`
+    # optimisées sont automatiquement placées dans `build/dev`
     imagemin:
       options:
         progressive: false
@@ -186,60 +160,72 @@ module.exports = (grunt) ->
         files: [
           expand: true,
           cwd   : 'src/img/',
-          src   : ['*.{png,jpg,gif,svg}'],
+          src   : ['*.{png,jpg,gif,svg}', 'dummy/*'],
           dest  : 'build/dev/img/'
         ]
       prod:
         files: [
           expand: true,
           cwd   : 'src/img/',
-          src   : ['*.{png,jpg,gif,svg}'],
+          src   : ['*.{png,jpg,gif,svg}', 'dummy/*'],
           dest  : 'build/prod/img/'
         ]
+
+    svgstore:
+      options:
+        prefix : 'icon-' # This will prefix each ID
+        svg: # will add and overide the the default xmlns="http://www.w3.org/2000/svg" attribute to the resulting SVG
+          viewBox : '0 0 100 100',
+          xmlns: 'http://www.w3.org/2000/svg'
+          'xmlns:xlink': 'http://www.w3.org/1999/xlink'
+          class: 'icons'
+      default :
+        files:
+          'src/img/icons.svg': ['src/img/svgs/*.svg']
 
 
     # CSS
     # ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     # Les tâches suivantes sont exclusivement dédiées au traitement de CSS
 
-    # $ grunt compass
-    # --------------------------------------------------------------------------
-    # Gère la compilation compass
-    # TODO: configurer l'option watch pour rendre la compilation plus rapide
-    compass:
-      options:
-        bundleExec: true
-        config: 'config.rb'
-      dev:
-        options:
-          environment: 'development'
-      prod:
-        options:
-          environment: 'production'
-
     # $ grunt postcss
     # --------------------------------------------------------------------------
     # Applique des filtres de post-traitement aux feuilles de styles générées
     # Les post processeur CSS utilisés sont:
-    # * Autoprefixer: Les problématiques de prefix sont gérées automatiquement
+    # * CSSnext http://cssnext.io
+    # * postcss-import https://github.com/postcss/postcss-import
+    # * css-mqpacker https://github.com/hail2u/node-css-mqpacker
     postcss:
       options:
         processors: [
-          require('autoprefixer-core')({browsers: ['> 4%', 'ie >= 8']}).postcss,
+          require('postcss-import')({
+            plugins: [
+              require('stylelint')()
+            ]
+          })
+          require('css-mqpacker')({
+            sort: true
+          })
+          require('postcss-cssnext')({
+            browsers: 'last 2 versions, > 5%'
+          })
+          require("postcss-reporter")({ clearMessages: true })
+          require('cssnano')({
+            autoprefixer: false
+          })
         ]
       dev:
-        src: 'build/dev/css/*.css'
+        src: 'src/css/style.css'
+        dest: 'build/dev/css/style.css'
       prod:
-        src: 'build/prod/css/*.css'
-
-    # $ grunt scsslint
-    # --------------------------------------------------------------------------
-    # Vérifie que les fichiers Sass suivent les conventions de codage
-    scsslint:
-      all: ['src/**/*.scss','!src/sass/doc.scss']
-      options:
-        bundleExec: true
-        config: '.scss-lint.yml'
+        src: 'src/css/style.css'
+        dest: 'build/prod/css/style.css'
+      doc:
+        src: 'src/css/doc.css'
+        dest: 'build/dev/css/doc.css'
+      docProd:
+        src: 'src/css/doc.css'
+        dest: 'build/prod/css/doc.css'
 
 
 
@@ -280,19 +266,12 @@ module.exports = (grunt) ->
     # Supprime tous les fichiers avant de lancer un build
     clean:
       dev : ['build/dev']
-      prod: ['build/prod']
+      prod : ['build/prod']
 
     # $ grunt copy
     # --------------------------------------------------------------------------
     # Déplace tous les fichiers qui ont besoin de l'être
     copy:
-      js:
-        files: [{
-          expand: true
-          cwd: 'src'
-          src: ['js/**/*.js']
-          dest: 'build/dev/'
-        }]
       fonts:
         files: [{
           expand: true
@@ -306,20 +285,22 @@ module.exports = (grunt) ->
           src: ['fonts/**/*']
           dest: 'build/prod/'
         }]
-      bower:
+      js:
         files: [{
           expand: true
-          cwd: 'bower_components'
-          src: ['**/*.js']
-          dest: 'src/js/lib/'
+          cwd: 'src'
+          src: ['js/**/*.js']
+          dest: 'build/dev/'
         }]
-
-    # $ grunt exec
-    # --------------------------------------------------------------------------
-    # Permet d'executer n'importe quelle commande shell
-    exec:
-      bower: 'bower install'
-      kss: 'kss-node -c kss.json'
+      icons:
+        files: [{
+          expand: true
+          cwd: 'src/img'
+          src: ['icons.svg']
+          dest: 'src/tpl/inc/'
+          rename: (dest, src) ->
+            dest + src.replace(/\.svg$/, ".hbs")
+        }]
 
     # $ grunt connect
     # --------------------------------------------------------------------------
@@ -337,7 +318,7 @@ module.exports = (grunt) ->
           livereload : true
 
       # $ grunt connect:dev
-      # Pour pouvoir voir le contenu du repertoir `/build/dev`
+      # Pour pouvoir voir le contenu du repertoire `/build/dev`
       # A l'adresse http://localhost:8000
       dev:
         options :
@@ -346,8 +327,8 @@ module.exports = (grunt) ->
           keepalive  : true
 
       # $ grunt connect:prod
-      # Pour pouvoir voir le contenu du repertoir `/build/prod`
-      # A l'adresse http://localhost:8001
+      # Pour pouvoir voir le contenu du repertoire `/build/prod`
+      # A l'adresse http://localhost:8000
       prod:
         options :
           base       : 'build/prod'
@@ -364,9 +345,9 @@ module.exports = (grunt) ->
         options:
           livereload: true
         files: ['build/dev/**/*']
-      sass:
-        files: ['src/sass/**/*.scss','src/sass/styleguide.md']
-        tasks: ['sass', 'newer:scsslint', 'kss']
+      css:
+        files: ['src/css/**/*.css']
+        tasks: ['postcss']
       images:
         files: 'src/img/*.{png,jpg,gif,svg}'
         tasks: ['newer:imagemin:dev']
@@ -376,132 +357,6 @@ module.exports = (grunt) ->
       html:
         files: 'src/tpl/**/*.hbs'
         tasks: ['assemble:dev','newer:prettify:dev']
-      fonts:
-        files: 'src/fonts/**/*'
-        tasks: ['newer:copy:fonts']
-      css:
-        files: 'build/dev/css/**/*.css'
-        tasks: ['newer:postcss']
-
-
-    # GIT HOOKS
-    # --------------------------------------------------------------------------
-    # Relie des tâches grunt aux hooks de git
-    githooks:
-      all:
-        options:
-          template: 'hooks/pre-commit.js'
-        'pre-commit': 'test'
-
-
-    # Deploy
-    # ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-
-    # $ grunt sftp-deploy
-    # --------------------------------------------------------------------------
-    # Configuration du déploiment sftp sur le serveur de preview
-    # Ajouter un fichier `.ftppass` au même niveau que le Gruntfile.coffee qui
-    # contient les informations de connections sous cette forme :
-    #
-    # ```
-    # {
-    #   "key1": {
-    #     "username": "your user name",
-    #     "password": "your password"
-    #   }
-    # }
-    # ```
-    'sftp-deploy':
-      build:
-        auth:
-          host: 'garden.clever-age.net'
-          port: 22006
-          authKey: 'key1'
-        src: 'build'
-        dest: '/home/integration/www/<%= pkg.name %>/<%= pkg.name %>_<%= pkg.version %>'
-        exclusions: ['build/**/.DS_Store', 'build/**/Thumbs.db']
-        serverSep: '/'
-        concurrency: 4
-        progress: true
-
-
-    # GESTION DE LA VERSION
-    # --------------------------------------------------------------------------
-
-    # $ grunt bump
-    # --------------------------------------------------------------------------
-    # bump version
-    bump:
-      options:
-        files: ['package.json']
-        updateConfigs: ['pkg']
-        commit: true
-        commitMessage: '=== Bump to version <%= pkg.name %>_%VERSION% ==='
-        commitFiles: ['package.json']
-        createTag: true
-        tagName: '<%= pkg.name %>_%VERSION%'
-        tagMessage: 'Bumping <%= pkg.name %> to version %VERSION%'
-        push: true
-        pushTo: 'origin'
-        gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
-        globalReplace: false
-        prereleaseName: false
-        regExp: false
-
-
-    # $ grunt prompt
-    # --------------------------------------------------------------------------
-    # prompt user for version bump
-    prompt:
-      bump:
-        options:
-          questions: [{
-            config  : 'bump.options.versionType'
-            type    : 'list'
-            message : 'Bump version from ' + '<%= pkg.version %>' + ' to:'
-            default : 'patch'
-            choices: [{
-              value : 'git'
-              name  : 'Build:  '+ (pkg.version + '-?') + ' Unstable, betas, and release candidates.'
-            },{
-              value : 'patch'
-              name  : 'Patch:  ' + semver.inc(pkg.version, 'patch') + ' Bug fixes.'
-            },{
-              value : 'minor'
-              name  : 'Minor:  ' + semver.inc(pkg.version, 'minor') + ' Add some evolutions.'
-            },{
-              value : 'major'
-              name  : 'Major:  ' + semver.inc(pkg.version, 'major') + ' Add new functionalities.'
-            },{
-              value : 'custom'
-              name  : 'Custom: ?.?.? Specify version...'
-            }]
-          },{
-            config   : 'bump.options.setVersion'
-            type     : 'input'
-            message  : 'What specific version would you like?'
-            when     : (answers) ->
-              answers['bump.options.versionType'] == 'custom'
-            validate : (value) ->
-              valid = semver.valid value
-              typeof valid == 'string' || 'Must be a valid semver, such as 1.2.3-rc1. See http://semver.org/ for more details.'
-          }]
-
-
-  # TACHES PERSONALISÉES
-  # ============================================================================
-  # Intermediate task to handle `$ grunt watch --sass=no`
-  grunt.registerTask 'sass', 'Checking Sass requirement', () ->
-    if grunt.option('sass') is 'no'
-      grunt.log.write 'We must not compile Sass'
-    else
-      grunt.log.write 'We are allowed to compile Sass'
-      grunt.task.run 'compass:dev'
-
-  # Intermediate task to handle `$ grunt live --bower=no`
-  grunt.registerTask 'ifbower', 'Checking Bower requirement', () ->
-    if grunt.option('bower') is 'no'
-      grunt.log.write 'We must not call bower'
-    else
-      grunt.log.write 'Updating third party lib with bower'
-      grunt.task.run 'bower'
+      svg:
+        files: 'src/img/svgs/*.svg'
+        tasks: ['svgstore','copy:icons','assemble:dev','newer:prettify:dev']

@@ -1,0 +1,159 @@
+/* Just for local documentation */
+/* stylelint-disable */
+.ca__ {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font: 1rem/1.4rem sans-serif;
+  color: #000;
+  background: #FFF;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.ca__header {
+  font-size: 1.5rem;
+  font-weight: normal;
+  font-variant: small-caps;
+  padding: 1rem .5rem .5rem;
+  margin: 0;
+  border-bottom: 1px solid #CCC;
+}
+.ca__header__logo {
+  height: 1rem;
+  width: auto;
+  margin-right: .5em;
+}
+.ca__header__link {
+  color: inherit;
+  text-decoration: none;
+}.ca__header__link:hover, .ca__header__link:active {
+  text-decoration: underline;
+}
+.ca__page {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.ca__menu {
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
+  background: #EFEFEF;
+}
+.ca__menu__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}.ca__menu__list .ca__menu__list .ca__menu__link {
+  font-size: .8rem;
+  padding: .3rem 1rem;
+}
+.ca__menu__list__item {
+  padding: 0;
+}
+.ca__menu__reference {
+  min-width: 1rem;
+}
+.ca__menu__link {
+  display: block;
+  line-height: 1rem;
+  padding: 1rem .5rem .3rem;
+  color: #bfbfbf;
+  text-decoration: none;
+}
+.ca__menu__link-highlight {
+  font-weight: bold;
+  color: #000;
+}
+.ca__menu__link:hover {
+  color: #000;
+  text-decoration: underline;
+}
+.ca__main {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  padding: 1rem;
+}.ca__main > *:first-child {
+  margin-top: 0;
+}.ca__main > *:last-child {
+  margin-bottom: 0;
+}
+.ca__main__section:first-child > *:first-child {
+  margin-top: 0;
+}.ca__main__section:last-child > *:last-child {
+  margin-bottom: 0;
+}
+.ca__title__link {
+  color: inherit;
+  text-decoration: none;
+}
+.ca__example {
+  border: 1px solid #CCC;
+  padding: .5rem;
+}
+.ca__example__head {
+  display: block;
+  padding: .5rem;
+  margin: -.5rem -.5rem .5rem;
+  border-bottom: 1px solid #CCC;
+  background: #DEDEDE;
+}.ca__example__head + .ca__example__markup {
+  margin-top: 0;
+}
+.ca__example__title {
+  font-style: normal;
+  font-weight: bold;
+}
+.ca__example__title:after {
+  content: " :";
+}
+.ca__example__markup {
+  margin: .5rem 0;
+}
+.ca__example__markup:last-child {
+  margin-bottom: 0;
+}
+.ca__table_container {
+  overflow: auto;
+  border: 1px solid #333;
+}
+.ca__table {
+  font-size: .9rem;
+  border-spacing: 0;
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 40em;
+}.ca__table th {
+  padding: .4em .5em .3em;
+  background: #DEDEDE;
+  border-bottom: 1px solid #333;
+  border-right: 1px solid #333;
+}.ca__table td {
+  padding: .4em .5em .3em;
+  text-align: center;
+  border-bottom: 1px solid #333;
+  border-right: 1px solid #333;
+}.ca__table td:last-child {
+  border-right: none;
+}.ca__table tbody tr:last-child th, .ca__table tbody tr:last-child td {
+  border-bottom: none;
+}.ca__table p {
+  margin: 0;
+}.ca__table p + p {
+  margin-top: 1em;
+}.ca__table .ca__table__head--left,
+.ca__table .ca__table__data--left {
+  text-align: left;
+}.ca__table .ca__table__head--left {
+  border-right: none;
+}
+/* stylelint-enable */

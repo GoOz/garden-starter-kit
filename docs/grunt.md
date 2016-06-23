@@ -43,9 +43,7 @@ projets.
 Par défaut, tout projet utilise les plugins suivant avec leur tâches associées :
 
 * [assemble](https://github.com/assemble/assemble/)
-* [autoprefixer-core](https://github.com/postcss/autoprefixer-core)
 * [grunt-contrib-clean](https://github.com/gruntjs/grunt-contrib-clean)
-* [grunt-contrib-compass](https://github.com/gruntjs/grunt-contrib-compass)
 * [grunt-contrib-concat](https://github.com/gruntjs/grunt-contrib-concat)
 * [grunt-contrib-connect](https://github.com/gruntjs/grunt-contrib-connect)
 * [grunt-contrib-copy](https://github.com/gruntjs/grunt-contrib-copy)
@@ -55,13 +53,20 @@ Par défaut, tout projet utilise les plugins suivant avec leur tâches associée
 * [grunt-contrib-watch](https://github.com/gruntjs/grunt-contrib-watch)
 * [grunt-newer](https://github.com/tschaub/grunt-newer)
 * [grunt-prettify](https://github.com/jonschlinkert/grunt-prettify)
-* [grunt-scss-lint](https://github.com/ahmednuaman/grunt-scss-lint)
 * [grunt-postcss](https://github.com/nDmitry/grunt-postcss)
-* [grunt-usemin](https://github.com/yeoman/grunt-usemin),
+* [grunt-usemin](https://github.com/yeoman/grunt-usemin)
+* [grunt-svgstore](https://github.com/FWeinb/grunt-svgstore)
+* [postcss](https://github.com/postcss/postcss)
+* [postcss-cssnext](https://github.com/MoOx/postcss-cssnext)
+* [css-mqpacker](https://github.com/hail2u/node-css-mqpacker)
+* [cssnano](https://github.com/ben-eb/cssnano)
+* [postcss-import](https://github.com/postcss/postcss-import)
+* [postcss-reporter](https://github.com/postcss/postcss-reporter)
+* [stylelint](https://github.com/stylelint/stylelint)
 
 
 ### Tâches normalisées
-Tous nos projet doivent, de manière standard proposer les tâches normalisées
+Tous nos projets doivent, de manière standard proposer les tâches normalisées
 suivantes:
 
 #### live
@@ -78,10 +83,6 @@ $ grunt live
 Cette tâche est un raccourcis pour le lancement successif des tâches _build_,
 _connect_ et _watch_ (voir ci-après). Elle propose en outre une fonction de
 _livereload_.
-
-Il est possible de faire en sorte de ne pas observer les fichiers Sass pour ceux
-qui voudraient utiliser directement le watcher de compass. Pour cela, il suffit
-d'utiliser le flag `--sass=no`.
 
 ```bash
 $ grunt live --sass=no
@@ -158,14 +159,6 @@ _watch_ directement.
 
 ```bash
 $ grunt watch
-```
-
-Il est possible de faire en sorte de ne pas observer les fichiers Sass pour ceux
-qui voudraient utiliser directement le watcher de compass. Pour cela, il suffit
-d'utiliser le flag `--sass=no`.
-
-```bash
-$ grunt watch --sass=no
 ```
 
 

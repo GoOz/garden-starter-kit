@@ -15,6 +15,7 @@ ehthumbs.db
 Thumbs.db
 desktop.ini
 
+
 # IDE
 # -----------------------------------------------------------------------------
 # Ignorer les fichiers générés par les IDE
@@ -25,18 +26,6 @@ nbproject
 .project
 .settings
 
-# SASS
-# -----------------------------------------------------------------------------
-# Ignorer le cache de Sass
-.sass-cache
-
-# Ignorer la configuration interne de Bunler
-.bundle
-
-# Ignorer les gems instalées avec le projet
-# N'hésitez pas à adpater le nom du dossier à vos propre habitudes
-.gems
-
 
 # MODULES TIERS
 # -----------------------------------------------------------------------------
@@ -46,20 +35,11 @@ logs
 *.log
 npm-debug.log*
 
-# Ignorer les biblothèques et fichiers temporaires gérés via Bower
-bower_components
-.bower-cache
-.bower-registry
-.bower-tmp
-
 
 # PROJET
 # -----------------------------------------------------------------------------
 # Ignorer les bibliothèques JS tiers placé dans les sources
 src/js/lib
-
-# Ignorer les bibliothèques Sass tiers placé dans les sources
-src/sass/lib
 
 # Ignorer le build
 build

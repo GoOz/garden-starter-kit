@@ -175,7 +175,7 @@ Paramètre : url relative du fichier par rapport à la racine du projet.
   width="300"
   height="100"
   alt="Logo"
-  src="data:image/png;base64,\{{base64 'src/img/clever-age-logo.png'}}"/>
+  src="data:image/png;base64,\{{base64 'src/img/logo.png'}}"/>
 ```
 
 Dans un contexte où les appels externes ne sont pas possibles ou souhaités (Exemple : page servie par l'hébergeur en cas du surcharge serveur), on pourra également utiliser ce helper dans du css dans la page :

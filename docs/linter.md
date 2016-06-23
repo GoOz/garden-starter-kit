@@ -33,16 +33,14 @@ On empêche l'utilisation de la fonction ```eval``` car elle contient des vulné
 Lors de comparaison via ```==```, on force l'utilisation de ```===``` (comparaison stricte). Cela est d'une part plus performant, et d'autre part permet d'éviter des résultats inattendus.
 
 
-Linter Sass : SCSS-Lint
+Linter Sass : StyleLint
 --------------------------------------------------------------------------------
 
-[SCSS-Lint](https://github.com/causes/scss-lint) vérifie la qualité du code Sass.
+[StyleLint](https://github.com/stylelint/stylelint) vérifie la qualité du code CSS.
 
-Il est possible de surcharger les règles par défaut via le fichier *.scss-lint.yml*.
-Pour voir les options possibles, c'est [ici](https://github.com/causes/scss-lint/blob/master/lib/scss_lint/linter/README.md).
-
-Les paramètres utilisés sur le starter-kit sont adaptés de [scss-lint-w3c](https://github.com/kaelig/scss-lint-w3c).
+Il est possible de surcharger les règles par défaut via le fichier *.stylelintrc*.
+Pour voir les options possibles, c'est [ici](http://stylelint.io/user-guide/rules/).
 
 Certains éditeurs, tels que [Sublime text 3](http://www.sublimetext.com/3), sont
 capables de lire cette configuration et de verifier le linting à la demande.
-[Documentation du plugin Sublime](https://sublime.wbond.net/packages/SublimeLinter-contrib-scss-lint)
+[Documentation du plugin Sublime](https://github.com/kungfusheep/SublimeLinter-contrib-stylelint)
