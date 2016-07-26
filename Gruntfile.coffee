@@ -25,7 +25,7 @@ module.exports = (grunt) ->
 
   # $ grunt html
   # Régènère uniquement les pages HTML
-  grunt.registerTask 'html', ['assemble', 'prettify']
+  grunt.registerTask 'html', ['assemble', 'prettify', 'kss']
 
   # $ grunt js
   # Régènère uniquement les fichiers JS
@@ -34,6 +34,11 @@ module.exports = (grunt) ->
   # $ grunt test
   # Lance les tests du projets
   grunt.registerTask 'test', ['jshint']
+
+  # $ grunt kss
+  # Generation du style guide basé sur les commentaires KSS des fichiers SCSS
+  # Alias de grunt exec:kss
+  grunt.registerTask 'kss', ['exec:kss']
 
   # CHARGE LES TÂCHES A LA DEMANDE POUR ACCELERER
   # L'EXECUTION DES TâCHES APPELLÉES INDIVIDUELLEMENT
@@ -46,6 +51,7 @@ module.exports = (grunt) ->
     'grunt-contrib-imagemin'
     'grunt-contrib-jshint'
     'grunt-contrib-uglify'
+    'grunt-exec'
     'grunt-newer'
     'grunt-postcss'
     'grunt-prettify'
@@ -302,6 +308,12 @@ module.exports = (grunt) ->
             dest + src.replace(/\.svg$/, ".hbs")
         }]
 
+    # $ grunt exec
+    # --------------------------------------------------------------------------
+    # Permet d'executer n'importe quelle commande shell
+    exec:
+      kss: 'kss-node -c kss.json'
+
     # $ grunt connect
     # --------------------------------------------------------------------------
     # Static web server près à l'emplois pour afficher du HTML statique.
@@ -357,6 +369,9 @@ module.exports = (grunt) ->
       html:
         files: 'src/tpl/**/*.hbs'
         tasks: ['assemble:dev','newer:prettify:dev']
+      fonts:
+        files: 'src/fonts/**/*'
+        tasks: ['newer:copy:fonts']
       svg:
         files: 'src/img/svgs/*.svg'
         tasks: ['svgstore','copy:icons','assemble:dev','newer:prettify:dev']

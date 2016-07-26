@@ -6,7 +6,7 @@
   "helpers": "./src/helpers",
   "css": [
     "../../css/doc.css",
-    "../../css/styles.css"
+    "../../css/style.css"
   ],
   "js": []
 }
